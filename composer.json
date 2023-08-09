@@ -7,11 +7,31 @@
   "license": "MIT",
   "require": {
     "php": ">=8.0",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "studoo/edu-framework": "dev-main"
   },
   "autoload": {
     "psr-4": {
       "": "app/"
     }
+  },
+  "authors": [
+    {
+      "name": "Benoit Foujols",
+      "email": "Benoit.Foujols@ac-creteil.fr"
+    },
+    {
+      "name": "Studoo Community",
+      "homepage": "https://github.com/orgs/studoo-app/people"
+    }
+  ],
+  "scripts": {
+    "edu:start": [
+      "Composer\\Config::disableProcessTimeout",
+      "php -S localhost:8042 -t public"
+    ],
+    "edu:init": [
+      "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ]
   }
 }
