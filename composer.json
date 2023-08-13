@@ -2,7 +2,6 @@
   "name": "studoo/edu-framework-skeleton",
   "type": "project",
   "description": "Edu Framework Skeleton",
-  "version": "1.0.0",
   "minimum-stability": "dev",
   "license": "MIT",
   "require": {
