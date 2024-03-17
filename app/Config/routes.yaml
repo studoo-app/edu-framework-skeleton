@@ -2,7 +2,3 @@ index:
     uri: /
     controller: Controller\HomeController
     httpMethod: [GET]
-testdb:
-    uri: /testdb
-    controller: Controller\DataBaseTestController
-    httpMethod: [GET]

@@ -23,8 +23,7 @@ class HomeController implements ControllerInterface
         return TwigCore::getEnvironment()->render(
             'home/home.html.twig',
             [
-                'titre'   => 'Hello World !',
-                'requete' => $request
+                'bonjour'   => "welcome to the home page",
             ]
         );
     }
