@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" bootstrap="tests/bootstrap.php"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
   <coverage>
     <include>
-      <directory>./app/</directory>
+      <directory suffix=".php">./app</directory>
     </include>
   </coverage>
   <testsuites>
-    <testsuite name="CLI tests">
-      <directory>./tests/</directory>
+    <testsuite name="Default">
+      <directory suffix="Test.php">./tests</directory>
     </testsuite>
   </testsuites>
 </phpunit>
