@@ -32,7 +32,16 @@ services:
       - database
   mailer:
     container_name: edu-web-mailer
-    image: schickling/mailcatcher
-    ports: [ "1025:1025", "1080:1080" ]
+    image: axllent/mailpit
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+  dbgate:
+    container_name: edu-web-dbgate
+    image: dbgate/dbgate
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./var/dbgate:/root/.local/share/dbgate
 volumes:
   dbdata:
