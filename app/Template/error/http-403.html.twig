@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Erreur {{ code }} - {{ name }}</title>
+    <title>Erreur {{ code }}</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -21,12 +21,11 @@
             font-family: ui-monospace, "SF Mono", monospace; font-size: .85rem; color: #7a2d2b;
             word-break: break-word;
         }
-        a {
+        main a {
             display: inline-block; margin-top: 1.5rem; padding: .5rem 1.25rem;
             background: #353535; color: #fff; text-decoration: none; border-radius: 5px;
         }
-        a:hover { background: #36B393; }
-        footer { margin-top: 2rem; font-size: .8rem; color: #9aa8a2; }
+        main a:hover { background: #36B393; }
     </style>
 </head>
 <body>
@@ -40,8 +39,6 @@
     {% endif %}
 
     <a href="/">Retour à l'accueil</a>
-
-    <footer>{{ name }}</footer>
 </main>
 </body>
 </html>
