@@ -12,7 +12,7 @@
             min-height: 100vh; display: flex; align-items: center; justify-content: center;
         }
         main { text-align: center; padding: 2rem; max-width: 640px; }
-        .code { font-size: 6rem; font-weight: 800; color: #d97706; line-height: 1; }
+        .code { font-size: 6rem; font-weight: 800; color: #dc2626; line-height: 1; }
         h1 { font-size: 1.5rem; margin: 1rem 0 .5rem; }
         p { color: #52525b; }
         .exception {
@@ -32,8 +32,8 @@
 <body>
 <main>
     <p class="code">{{ code }}</p>
-    <h1>Méthode non autorisée</h1>
-    <p>La méthode HTTP utilisée n'est pas autorisée pour cette page (Exemple : POST au lieu de GET).</p>
+    <h1>Accès interdit</h1>
+    <p>Vous n'avez pas les droits nécessaires pour accéder à cette page.</p>
 
     {% if exception_message %}
         <p class="exception">{{ exception_message }}</p>
