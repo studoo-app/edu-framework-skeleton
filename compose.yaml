@@ -1,20 +1,47 @@
 services:
   database:
     container_name: edu-web-database
-    image: mysql:8.0
-    command: mysqld --sql_mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
-    platform: linux/amd64
+    image: mariadb:latest
     ports:
       - "3306:3306"
     restart: always
     environment:
       MYSQL_DATABASE: app_db
       MYSQL_ROOT_PASSWORD: studoo
-      #MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-      #MYSQL_USER: app_db_user
-      #MYSQL_PASSWORD: app_db_password
+      MYSQL_USER: stud
+      MYSQL_PASSWORD: studoo
+      # Si tu changes le mot de passe root ou stud, change aussi le mot de passe dans le fichier .env et dans la config du service dbgate
+#      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      TZ: Europe/Paris
     volumes:
-      - ./var/dbdata:/var/lib/mysql
+      - ./dbdata:/var/lib/mysql
+  mailer:
+    container_name: edu-web-mailer
+    image: axllent/mailpit
+    ports:
+      - "1025"
+      - "8025:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+  dbgate:
+    container_name: edu-web-dbgate
+    image: dbgate/dbgate
+    restart: always
+    ports:
+      - 8082:3000
+    volumes:
+      - ./var/dbgate:/root/.dbgate
+    environment:
+      CONNECTIONS: con1
+
+      LABEL_con1: MySql
+      SERVER_con1: database
+      USER_con1: root
+      PASSWORD_con1: studoo
+      PORT_con1: 3306
+      ENGINE_con1: mysql@dbgate-plugin-mysql
+
   phpmyadmin:
     container_name: edu-web-pma
     image: phpmyadmin/phpmyadmin
@@ -30,9 +57,6 @@ services:
     restart: always
     links:
       - database
-  mailer:
-    container_name: edu-web-mailer
-    image: schickling/mailcatcher
-    ports: [ "1025:1025", "1080:1080" ]
 volumes:
-  dbdata:
+  dbgate-data:
+    driver: local

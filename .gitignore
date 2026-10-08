@@ -7,4 +7,17 @@ composer.phar
 composer.lock
 # Ignore .env file containing secure information
 .env
+.env.local
+.env.*.local
 .phpunit.result.cache
+# SQLite database files
+*.sqlite
+*.db
+# Log files
+*.log
+# IDE specific files
+.phpstorm.meta.php
+.vscode/
+.DS_Store
+# OS generated files
+Thumbs.db
