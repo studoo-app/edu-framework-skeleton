@@ -34,7 +34,7 @@ La documentation complète est disponible sur : [https://studoo-app.github.io/ed
 
 4. **Démarrer les services Docker**
    ```bash
-   docker compose up -d
+   docker compose up -d --build
    ```
 
 5. **Démarrer l'application**
