@@ -1,6 +1,6 @@
 # Edu Framework Skeleton
 
-Bienvenue dans votre projet avec **Edu Framework v2.3** !
+Bienvenue dans votre projet avec **Edu Framework** !
 
 ## Documentation
 
