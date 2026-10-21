@@ -14,6 +14,10 @@ services:
       context: .
       # Stage de développement du Dockerfile (frankenphp_prod sert au déploiement)
       target: frankenphp_dev
+      args:
+        # Profiler de code de la barre de debug (extension Excimer) :
+        # 1 => installé (défaut, développement) | 0 => image sans profiler
+        EDU_PROFILER: ${EDU_PROFILER_BUILD:-1}
     # tty: true => logs lisibles en dev ; retirer pour des logs JSON (prod)
     tty: true
     environment:
