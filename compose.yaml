@@ -10,7 +10,10 @@
 services:
   frankenphp:
     container_name: ${APP_NAME}-http-server
-    build: .
+    build:
+      context: .
+      # Stage de développement du Dockerfile (frankenphp_prod sert au déploiement)
+      target: frankenphp_dev
     # tty: true => logs lisibles en dev ; retirer pour des logs JSON (prod)
     tty: true
     environment:
