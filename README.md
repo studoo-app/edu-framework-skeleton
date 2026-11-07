@@ -1,116 +1,126 @@
 # Edu Framework Skeleton
 
-Bienvenue dans votre projet avec **Edu Framework** !
+Welcome to your project built with **Edu Framework**!
 
 ## Documentation
 
-La documentation complète est disponible sur : [https://studoo-app.github.io/edu-framework](https://studoo-app.github.io/edu-framework)
+The full documentation is available in English and French:
 
-## Prérequis
+- English: [https://studoo-app.github.io/edu-framework/en/](https://studoo-app.github.io/edu-framework/en/)
+- French: [https://studoo-app.github.io/edu-framework/](https://studoo-app.github.io/edu-framework/)
 
-- **PHP 8.4 ou supérieur**
-- Extensions PHP requises : `mbstring`, `pdo_sqlite`, `pdo_mysql`, `openssl`
-- Extension PHP optionnelle : `excimer` (profiler de code de la barre de debug, déjà installée dans l'image Docker)
+## Requirements
+
+- **PHP 8.4 or higher**
+- Required PHP extensions: `mbstring`, `pdo_sqlite`, `pdo_mysql`, `openssl`
+- Optional PHP extension: `excimer` (code profiler of the debug bar, already installed in the Docker image)
 - Composer 2.x
-- Docker et Docker Compose
+- Docker and Docker Compose
 
-Vérifiez votre configuration avec `php bin/edu check:config`.
+Check your setup with `php bin/edu check:config`.
 
 ## Installation
 
-1. **Cloner le projet**
+1. **Clone the project**
    ```bash
-   git clone <votre-repo>
-   cd <votre-projet>
+   git clone <your-repo>
+   cd <your-project>
    ```
 
-2. **Installer les dépendances**
+2. **Install the dependencies**
    ```bash
    composer install
    ```
 
-3. **Configurer l'environnement**
+3. **Configure the environment**
    ```bash
-   composer edu:init   # copie .env.example vers .env
-   # Modifier .env selon vos besoins (APP_ENV=dev pour la barre de debug)
+   composer edu:init   # copies .env.example to .env
+   # Edit .env to suit your needs (APP_ENV=dev for the debug bar)
    ```
 
-4. **Démarrer l'application**, au choix :
+4. **Start the application**, either:
 
-   - **Tout dans Docker** (application servie par FrankenPHP)
+   - **Everything in Docker** (application served by FrankenPHP)
      ```bash
      docker compose up -d --build
      ```
-     L'application est disponible sur [http://localhost](http://localhost) (port `HTTP_PORT`).
+     The application is available at [http://localhost](http://localhost) (port `HTTP_PORT`).
 
-   - **Services dans Docker, application sur votre poste**
+   - **Services in Docker, application on your computer**
      ```bash
      docker compose up -d database mailer dbgate phpmyadmin
      php bin/edu start
      ```
-     L'application est disponible sur [http://localhost:8042](http://localhost:8042).
+     The application is available at [http://localhost:8042](http://localhost:8042).
 
-Le guide [L'application dans Docker](https://studoo-app.github.io/edu-framework/installation/docker.html) détaille les deux modes.
+The guide [The application in Docker](https://studoo-app.github.io/edu-framework/en/installation/docker/) describes both modes in detail.
 
-## Services disponibles
+## Available services
 
-| Service | Port (défaut) | Variable `.env` | Description |
-|---------|---------------|-----------------|-------------|
-| FrankenPHP | 80 / 443 | `HTTP_PORT` / `HTTPS_PORT` | Serveur web (PHP + Caddy, HTTPS et HTTP/3) |
-| MariaDB | 3306 | `DB_SOCKET` | Base de données |
-| phpMyAdmin | 8081 | `PMA_PORT` | Administration MariaDB |
-| dbgate | 8082 | `DBGATE_PORT` | Administration des bases (MariaDB et SQLite des logs) |
-| Mailpit | 1025 (SMTP), 8025 (Web) | `MAILER_SMTP_PORT` / `MAILER_UI_PORT` | Test des emails |
-| Serveur intégré | 8042 | — | `php bin/edu start` (hors Docker) |
+| Service | Port (default) | `.env` variable | Description |
+|---------|----------------|-----------------|-------------|
+| FrankenPHP | 80 / 443 | `HTTP_PORT` / `HTTPS_PORT` | Web server (PHP + Caddy, HTTPS and HTTP/3) |
+| MariaDB | 3306 | `DB_SOCKET` | Database |
+| phpMyAdmin | 8081 | `PMA_PORT` | MariaDB administration |
+| dbgate | 8082 | `DBGATE_PORT` | Database administration (MariaDB and the SQLite logs database) |
+| Mailpit | 1025 (SMTP), 8025 (Web) | `MAILER_SMTP_PORT` / `MAILER_UI_PORT` | Email testing |
+| Built-in server | 8042 | — | `php bin/edu start` (outside Docker) |
 
-Les conteneurs sont préfixés par `APP_NAME`. Si un autre projet occupe déjà ces ports, modifiez-les dans le `.env`.
+Container names are prefixed with `APP_NAME`. If another project already uses these ports, change them in the `.env` file.
 
 ### HTTPS
 
-Le serveur FrankenPHP est piloté par la variable `SERVER_NAME` :
+The FrankenPHP server is driven by the `SERVER_NAME` variable:
 
-- `:80` : HTTP simple (défaut, développement)
-- `localhost` : HTTPS local avec certificat auto-signé ([https://localhost](https://localhost))
-- `mon-site.fr` : HTTPS via Let's Encrypt (production, domaine public requis)
+- `:80`: plain HTTP (default, development)
+- `localhost`: local HTTPS with a self-signed certificate ([https://localhost](https://localhost))
+- `my-site.com`: HTTPS with Let's Encrypt (production, public domain required)
 
-## Barre de debug et profiler
+## Debug bar and profiler
 
-En mode développement (`APP_ENV=dev`), une barre de debug s'affiche en bas de chaque page et le profiler est accessible sur `/_debug/profiler` :
+In development mode (`APP_ENV=dev`), a debug bar is displayed at the bottom of every page and the profiler is available at `/_debug/profiler`:
 
-- journal de toutes les requêtes HTTP (statut, durée, mémoire, SAPI, erreurs), stocké dans `var/logs/core_logs.sqlite`
-- requêtes SQL exécutées par chaque requête HTTP (durée, requêtes répétées)
-- liens vers les services de développement (Mailpit, dbgate, phpMyAdmin)
-- **profiler de code** (extension Excimer) : temps passé dans chaque fonction PHP, export Speedscope pour un flamegraph
+- log of every HTTP request (status, duration, memory, SAPI, errors), stored in `var/logs/core_logs.sqlite`
+- SQL queries run by each HTTP request (duration, repeated queries)
+- links to the development services (Mailpit, dbgate, phpMyAdmin)
+- **code profiler** (Excimer extension): time spent in each PHP function, Speedscope export for a flame graph
 
-Configuration du profiler de code dans le `.env` :
+Code profiler settings in the `.env` file:
 
-| Variable | Valeurs | Description |
-|----------|---------|-------------|
-| `EDU_PROFILER` | `off`, `trigger` (défaut), `on` | `trigger` : profilage à la demande via le bouton **Code** de la barre de debug ou `?_profile=1` ; `on` : chaque requête est profilée |
-| `EDU_PROFILER_KEEP` | `50` | Nombre de profils conservés |
-| `EDU_PROFILER_BUILD` | `1` (défaut), `0` | Image Docker avec ou sans Excimer |
+| Variable | Values | Description |
+|----------|--------|-------------|
+| `EDU_PROFILER` | `off`, `trigger` (default), `on` | `trigger`: on-demand profiling with the **Code** button of the debug bar or `?_profile=1`; `on`: every request is profiled |
+| `EDU_PROFILER_KEEP` | `50` | Number of profiles kept |
+| `EDU_PROFILER_BUILD` | `1` (default), `0` | Docker image with or without Excimer |
 
-Voir [La barre de debug et le profiler](https://studoo-app.github.io/edu-framework/boost/debug-bar.html).
+See [The debug bar and the profiler](https://studoo-app.github.io/edu-framework/en/boost/debug-bar/).
 
-## Commandes utiles
+## Unit tests
 
-- **Démarrer le serveur intégré** : `php bin/edu start --port=8080`
-- **Vérifier la configuration** : `php bin/edu check:config` (dans Docker : `docker compose exec frankenphp php bin/edu check:config`)
-- **Voir la version** : `php bin/edu --version`
-- **Générer un controller** : `php bin/edu make:controller NomController`
-- **Générer une commande CLI** : `php bin/edu make:command nom:commande`
-- **Générer une API** : `php bin/edu make:api NomApi`
-- **Lancer les tests** : `vendor/bin/phpunit`
+PHPUnit is already installed and configured (`phpunit.xml`, `tests/bootstrap.php`): write your tests in the `tests` folder and run them with `vendor/bin/phpunit`.
+
+See [Test your application (unit tests)](https://studoo-app.github.io/edu-framework/en/build/tests-unitaires/).
+
+## Useful commands
+
+- **Start the built-in server**: `php bin/edu start --port=8080`
+- **Check the configuration**: `php bin/edu check:config` (in Docker: `docker compose exec frankenphp php bin/edu check:config`)
+- **Show the version**: `php bin/edu --version`
+- **Generate a controller**: `php bin/edu make:controller NameController`
+- **Generate a CLI command**: `php bin/edu make:command name:command`
+- **Generate an API**: `php bin/edu make:api NameApi`
+- **Run the tests**: `vendor/bin/phpunit`
 
 ## Migration
 
-- [Migrer de la version 2.3 à la version 2.8](https://studoo-app.github.io/edu-framework/migrate/migration-2_3-2_8.html) (MariaDB, templates d'erreur, cache Twig, `.env`, fichiers Docker)
-- [Migrer de la version 2.2 à la version 2.3](https://studoo-app.github.io/edu-framework/migrate/migration-2_2-2_3.html)
+- [Migrate from version 2.8 to version 2.9](https://studoo-app.github.io/edu-framework/en/migrate/migration-2_8-2_9/)
+- [Migrate from version 2.3 to version 2.8](https://studoo-app.github.io/edu-framework/en/migrate/migration-2_3-2_8/) (MariaDB, error templates, Twig cache, `.env`, Docker files)
+- [Migrate from version 2.2 to version 2.3](https://studoo-app.github.io/edu-framework/en/migrate/migration-2_2-2_3/)
 
-## Contribuer
+## Contributing
 
-Pour contribuer au projet, consultez le [guide de contribution](https://studoo-app.github.io/edu-framework/contributor/contributing.html).
+To contribute to the project, read the [contribution guide](https://studoo-app.github.io/edu-framework/en/contributor/contributing/).
 
-## Licence
+## License
 
 MIT License - Copyright (c) 2022-2026 Collectif Studoo
