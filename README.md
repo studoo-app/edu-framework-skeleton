@@ -48,7 +48,7 @@ Check your setup with `php bin/edu check:config`.
 
    - **Services in Docker, application on your computer**
      ```bash
-     docker compose up -d database mailer dbgate phpmyadmin
+     docker compose up -d database mailer dbgate phpmyadmin redis redisinsight
      php bin/edu start
      ```
      The application is available at [http://localhost:8042](http://localhost:8042).
@@ -64,7 +64,11 @@ The guide [The application in Docker](https://studoo-app.github.io/edu-framework
 | phpMyAdmin | 8081 | `PMA_PORT` | MariaDB administration |
 | dbgate | 8082 | `DBGATE_PORT` | Database administration (MariaDB and the SQLite logs database) |
 | Mailpit | 1025 (SMTP), 8025 (Web) | `MAILER_SMTP_PORT` / `MAILER_UI_PORT` | Email testing |
+| Redis | 6379 | `REDIS_PORT` | Application cache server (used with `CACHE_DRIVER=redis`) |
+| Redis Insight | 5540 | `REDIS_UI_PORT` | Web interface to explore the Redis cache keys |
 | Built-in server | 8042 | — | `php bin/edu start` (outside Docker) |
+
+The application cache uses files by default (`CACHE_DRIVER=file`): set `CACHE_DRIVER=redis` in the `.env` file to use the Redis service, see the tutorial [Caching data with Redis](https://studoo-app.github.io/edu-framework/en/build/cache-redis/).
 
 Container names are prefixed with `APP_NAME`. If another project already uses these ports, change them in the `.env` file.
 
@@ -82,7 +86,8 @@ In development mode (`APP_ENV=dev`), a debug bar is displayed at the bottom of e
 
 - log of every HTTP request (status, duration, memory, SAPI, errors), stored in `var/logs/core_logs.sqlite`
 - SQL queries run by each HTTP request (duration, repeated queries)
-- links to the development services (Mailpit, dbgate, phpMyAdmin)
+- application cache operations (hits, misses, writes) when the page uses the cache
+- links to the development services (Mailpit, dbgate, phpMyAdmin, Redis Insight)
 - **code profiler** (Excimer extension): time spent in each PHP function, Speedscope export for a flame graph
 
 Code profiler settings in the `.env` file:
